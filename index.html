@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Evaluation Agent: Efficient and Promptable Evaluation Framework for Visual Generative Models">
+  <meta name="keywords" content="Evaluation, Benchmark, Prompts, Dataset, Video Generation, Text-to-Video, Stable Diffusion, AIGC, Image Generation, MMLab, Shanghai AI Lab">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evaluation Agent: Efficient and Promptable Evaluation Framework for Visual Generative Models</title>
+
+<!--   Global site tag (gtag.js) - Google Analytics-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5ZVQZ7NHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Y5ZVQZ7NHC');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" href="./assets/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./assets/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./assets/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./assets/js/fontawesome.all.min.js"></script>
+  <script src="./assets/js/bulma-carousel.min.js"></script>
+  <script src="./assets/js/bulma-slider.min.js"></script>
+  <script src="./assets/js/index.js"></script>
+</head>
+<body>
+
+<!-- title -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title"><span style="color:#71a10a; font-weight: bold; font-style: italic">Evaluation Agent</span><br>
+            <span style="font-size: 0.91em;">Efficient and Promptable Evaluation Framework for Visual Generative Models</span>
+            </h1>
+            <!-- <h1 class="title is-1 publication-title"><span style="color:#71a10a; font-weight: bold; font-style: italic">Evaluation Agent</span> : Efficient and Promptable<br>Evaluation Framework<br>for Visual Generative Models
+              </h1> -->
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/zhangfan-p" target="_blank">Fan Zhang</a><sup>1*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://shulin16.github.io/" target="_blank">Shulin Tian</a><sup>2*</sup>,
+            </span>
+            <span class="author-block">
+                <a href="https://ziqihuangg.github.io" target="_blank">Ziqi Huang</a><sup>2*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://mmlab.siat.ac.cn/yuqiao/index.html" target="_blank">Yu Qiao</a><sup>1&#8224</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://liuziwei7.github.io/" target="_blank">Ziwei Liu</a><sup>2&#8224</sup>
+            </span>
+          </div>
+          <!-- <br> -->
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">(* equal contributions, &#8224 corresponding authors) </span>
+          </div>
+
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <sup>1</sup>
+            Shanghai Artificial Intelligence Laboratory &nbsp;&nbsp;
+            <sup>2</sup>
+            S-Lab, Nanyang Technological University &nbsp;&nbsp;
+          </span>
+        </div>
+
+        <div class="column has-text-centered">
+          <div class="publication-links">
+            <!-- Paper Link. -->
+            <span class="link-block">
+              <a href="https://vchitect.github.io/Evaluation-Agent-project/" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="ai ai-arxiv"></i>
+                </span>
+                <span>Paper</span>
+              </a>
+            </span>
+            <!-- Video Link. -->
+            <span class="link-block">
+              <a href="https://youtu.be/RyAS23dsgP8" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-youtube"></i>
+                </span>
+                <span>Video</span>
+              </a>
+            </span>
+            <!-- Code Link. -->
+            <span class="link-block">
+              <a href="https://github.com/Vchitect/Evaluation-Agent" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>GitHub</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://github.com/Vchitect/Evaluation-Agent" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="far fa-images"></i>
+                </span>
+                <span>Dataset</span>
+              </a>
+          </div>
+
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- teaser -->
+<section class="hero teaser">
+  <div class="container is-max-desktop"style="text-align: center;">
+      <div class="hero-body">
+            <img src="./assets/images/fig_teaser.png" style="width:600px; margin-bottom:10px" alt="Teaser."/>
+            <p style="margin-top: 0;">
+              <b> An Example of Evaluation Agent.</b> Unlike existing methods that rely on time-consuming sampling and fixed criteria with no explanation, the Evaluation Agent provides efficient, adaptive, and explainable evaluations tailored to user queries. It evaluates a model’s ability to generate visual content, including objects, attributes, and spatial relationships, to meet specific objectives.
+            </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper video. -->
+<section class="hero is-light">
+  <div class="columns is-centered has-text-centered"  style="margin-top: 0px; margin-bottom: 10px;">
+    <div class="column is-three-fifths">
+      <h2 class="title is-3">Video</h2>
+      <div class="publication-video">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/RyAS23dsgP8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- / Paper video.   -->
+
+
+<!-- Abstract. -->
+<section>
+  <div class="container is-max-desktop" style="width: 35%; max-width: none;">
+    <div class="columns is-centered has-text-centered" style="margin-top: 10px; margin-bottom: 0px;">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 is-centered">Abstract</h2>
+        <div class="content has-text-justified">
+          <p style="margin-top: 0; margin-bottom:-20px;">
+            Recent advancements in visual generative models have enabled high-quality image and video generation, opening diverse applications. However, evaluating these models often demands sampling hundreds or thousands of images or videos, making the process computationally expensive, especially for diffusion-based models with inherently slow sampling. Moreover, existing evaluation methods rely on rigid pipelines that overlook specific user needs and provide numerical results without clear explanations. In contrast, humans can quickly form impressions of a model's capabilities by observing only a few samples. To mimic this, we propose the <b>Evaluation Agent</b> framework, which employs human-like strategies for efficient, dynamic, multi-round evaluations using only a few samples per round, while offering detailed, user-tailored analyses. It offers four key advantages: 1) <b>efficiency</b>, 2) <b>promptable evaluation</b> tailored to diverse user needs, 3) <b>explainability</b> beyond single numerical scores, and 4) <b>scalability</b> across various models and tools. Experiments show that Evaluation Agent reduces evaluation time to 10% of traditional methods while delivering comparable results. The Evaluation Agent framework is fully open-sourced to advance research in visual generative models and their efficient evaluation.
+          </p>
+        </div>
+      </div>
+    </div>
+</section>
+<!--/ Abstract. -->
+
+
+
+
+<!--  Evaluation Agent Framework. -->
+<section class="section" style="margin-top:0px; margin-bottom:50px;">
+  <div class="container is-max-desktop" style="width: 41%; max-width: none;">
+    <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 is-centered">Pipeline of Evaluation Agent Framework</h2>
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column"  style="text-align: center;">
+            <div class="publication-img">
+              <img id="architecture" src="./assets/images/fig_framework.jpg" style="width:100%; max-width:100%; margin-top:30px;margin-bottom:10px;"/>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 0; margin-bottom:-100px;">
+          <b>Overview of Evaluation Agent Framework.</b> This framework leverages LLM-powered agents for efficient and flexible visual model assessments. As shown, it consists of two stages: (a) the Proposal Stage, where user queries are decomposed into sub-aspects, and prompts are generated, and (b) the Execution Stage, where visual content is generated and evaluated using an Evaluation Toolkit. The two stages interact iteratively to dynamically assess models based on user queries.
+        </p>
+    </div>
+  </div>
+</section>
+<!--  /Evaluation Agent Framework. -->
+
+
+
+
+
+<style>
+  .table-container {
+    overflow-x: auto;
+    text-align: center;
+  }
+  table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+  }
+  td {
+    border: 1px solid #ddd;
+  }
+  
+  .nowrap-table th, td {
+    white-space: nowrap;
+  }
+  .nowrap-table-td td {
+    white-space: nowrap;
+  }
+
+</style>
+
+
+<!--  Comparison between the Evaluation Agent Framework and other T2I/T2V Benchmarks. -->
+<section class="section" style="margin-top:-50px; margin-bottom:-80px;">
+  <div class="container is-max-desktop"  style="width: 43%; max-width: none;">
+    <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 is-centered">Comparing with Other T2I/T2V Benchmarks</h2>
+        </div>
+    </div>
+    <div class="table-container" style="text-align: center; margin-top:-30px;">
+      <table style="width:100%; text-align:center; border-collapse:collapse; margin: 0 auto;">
+        <thead>
+          <tr>
+            <th>Benchmark</th>
+            <th>Analysis</th>
+            <th>Customized Queries</th>
+            <th>Supported Models</th>
+            <th># Required Samples</th>
+            <th>Open Evaluation Request Support</th>
+            <th>Dynamic Evaluation</th>
+            <th>Open Tool-Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FID / FVD</td>
+            <td>&#10060;</td>
+            <td>&#10060;</td>
+            <td>T2I / T2V</td>
+            <td>2,048</td>
+            <td>&#10060; (Fixed-Form)</td>
+            <td>&#10060;</td>
+            <td>&#10060;</td>
+          </tr>
+          <tr>
+            <td>T2I-CompBench</td>
+            <td>&#10060;</td>
+            <td>&#10060;</td>
+            <td>T2I</td>
+            <td>18,000</td>
+            <td>&#10060; (Pre-Defined)</td>
+            <td>&#10060;</td>
+            <td>&#10060;</td>
+          </tr>
+          <tr>
+            <td>VBench</td>
+            <td>&#10060;</td>
+            <td>&#10060;</td>
+            <td>T2V</td>
+            <td>4,730</td>
+            <td>&#10060; (Pre-Defined)</td>
+            <td>&#10060;</td>
+            <td>&#10060;</td>
+          </tr>
+          <tr>
+            <td><b>Evaluation Agent (Ours)</b></td>
+            <td style="color: green;">&#10004;</td>
+            <td style="color: green;">&#10004;</td>
+            <td>T2I & T2V</td>
+            <td>400</td>
+            <td style="color: green;">&#10004; (Open-Ended)</td>
+            <td style="color: green;">&#10004;</td>
+            <td style="color: green;">&#10004;</td>
+          </tr>
+        </tbody>
+        <!-- <caption>Comparison between the Evaluation Agent Framework and other T2I/T2V Benchmarks.</caption> -->
+        
+      </table>
+    </div>
+    <p style="margin-top: 0;">
+      <b>Comparison of the Evaluation Agent Framework with Traditional T2I and T2V Benchmarks.</b> The Evaluation Agent framework supports customized user queries in natural language and works with both T2I and T2V models. Unlike traditional benchmarks, it dynamically updates the evaluation process using multiple tools, providing comprehensive and explainable results with detailed textual analysis.
+    </p>
+  </div>
+</section>
+<!--  /Comparison between the Evaluation Agent Framework and other T2I/T2V Benchmarks -->
+
+
+
+
+
+
+
+<!-- Experimental Results of Evaluation Agent.-->
+<section class="section" style="margin-top:50px; margin-bottom:-100px;">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 is-centered">Experimental Results of the Evaluation Agent</h2>
+        </div>
+    </div>
+
+    <div class="section-title" style="margin-top:-10px;">
+      <h4 class="title is-5 is-centered">Compare Time Consumption on the VBench</h5>
+    </div>
+    <div class="table-container" style="text-align: center;">
+      <table class="nowrap-table" style="width:50%; text-align:center; border-collapse:collapse; margin: 0 auto;">
+        <thead>
+          <tr>
+              <th>Models</th>
+              <th>VBench (Total Cost) &#x2193;</th>
+              <th>VBench (Avg. Cost per Dimension) &#x2193;</th>
+              <th>Evaluation Agent (Ours) &#x2193;</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Latte-1</td>
+                <td>2557 min, 4355 samples</td>
+                <td>170 min, 290 samples</td>
+                <td>15 min, 25 samples</td>
+            </tr>
+            <tr>
+                <td>ModelScope</td>
+                <td>1160 min, 4355 samples</td>
+                <td>77 min, 290 samples</td>
+                <td>6 min, 23 samples</td>
+            </tr>
+            <tr>
+                <td>VideoCrafter-0.9</td>
+                <td>1459 min, 4355 samples</td>
+                <td>97 min, 290 samples</td>
+                <td>8 min, 24 samples</td>
+            </tr>
+            <tr>
+                <td>VideoCrafter-2</td>
+                <td>4261 min, 4355 samples</td>
+                <td>284 min, 290 samples</td>
+                <td>23 min, 23 samples</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top: 0;">
+      <b>Time Cost Comparison Across Models for VBench Dimensions.</b> This table compares the evaluation time of four different models using the original VBench pipelines versus the Evaluation Agent. The Evaluation Agent significantly reduces the overall evaluation time.
+    </p>
+    <br>
+
+    <div class="section-title" style="margin-top:10px;">
+      <h4 class="title is-5 is-centered">Compare Time Consumption on the T2I-CompBench</h5>
+    </div>
+    <div class="table-container" style="text-align: center; ">
+      <table class="nowrap-table" style="width:50%; text-align:center; border-collapse:collapse; margin: 0 auto;">
+        <thead>
+          <tr>
+              <th>Models</th>
+              <th>T2I-Comp (Total Cost) &#x2193;</th>
+              <th>T2I-Comp (Avg. Cost per Dimension) &#x2193;</th>
+              <th>Evaluation Agent (Ours) &#x2193;</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SD-1.4</td>
+                <td>563 min, 12000 samples</td>
+                <td>141 min, 3000 samples</td>
+                <td>5 min, 26 samples</td>
+            </tr>
+            <tr>
+                <td>SD-2.1</td>
+                <td>782 min, 12000 samples</td>
+                <td>195 min, 3000 samples</td>
+                <td>5 min, 26 samples</td>
+            </tr>
+            <tr>
+                <td>SDXL</td>
+                <td>1543 min, 12000 samples</td>
+                <td>386 min, 3000 samples</td>
+                <td>8 min, 26 samples</td>
+            </tr>
+            <tr>
+                <td>SD-3.0</td>
+                <td>1410 min, 12000 samples</td>
+                <td>352 min, 3000 samples</td>
+                <td>7 min, 25 samples</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    
+
+    <p style="margin-top: 0;">
+      <b>Time Cost Comparison Across Models for T2I-CompBench Dimensions.</b> This table compares the evaluation costs for assessing four models across T2I-CompBench dimensions using both the original T2I-CompBench pipelines and our Evaluation Agent. The Evaluation Agent achieves a substantial reduction in evaluation time compared to the traditional pipelines.
+    </p>
+    <br>
+  </div>
+
+
+
+  <div class="section-title"  style="margin-top:30px;">
+    <h4 class="title is-5 is-centered">Performance across VBench Dimensions with Different Base Models</h5>
+  </div>
+
+  <!-- style="text-align: center;" -->
+  <div class="container is-max-desktop" > 
+      <div class="publication-img">
+        <img id="architecture" src="./assets/images/fig_performance_ind.png" style="width:100%; margin-top:10px;margin-bottom:10px;"/>
+      </div>
+      <p style="margin-top: 0; margin-bottom:60px;">
+        <b>Performance across VBench Dimensions for Different Base Models.</b> This visualization highlights the performance of all backbone models, including GPT-4o and Claude models, providing a comprehensive comparison in each dimension for different backbone models. Hatched portions indicate predictions within the exact range, and solid portions within an error margin of one range.
+      </p>
+      <br>
+  </div>
+
+
+
+</section>
+
+<!-- Open Queries Set -->
+<section class="section" style="margin-top:-80px; margin-bottom:30px;">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 is-centered">Statistics of the Open-Ended User Query Dataset</h2>
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./assets/images/open_dataset_stats.png" style="width:100%; margin-top:30px;margin-bottom:10px;"/>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 0;">
+          <b>Data Distribution of Open-Ended User Query Dataset.</b> We analyze the constructed open-ended user query dataset from three aspects: General/Specific, Ability, and Specific Domain. The results indicate that our dataset exhibits a relatively balanced distribution across these dimensions.
+          
+          The three graphs give an overview of the distributions and types of our curated open-ended user queries dataset. <b>Left: </b>the distribution of query types, which are categorized as <i>General</i> or <i>Specific</i>. <b>Middle: </b>the distribution of the ability types, which are categorized as <i>Prompt Following</i>, <i>Visual Quality</i>, <i>Creativity</i>, <i>Knowledge</i> and <i>Others</i>. <b>Right: </b>the distribution of the content categories, which are categorized as
+          <i>History and Culture</i>,
+          <i>Film and Entertainment</i>,
+          <i>Science and Education</i>,
+          <i>Fashion</i>,
+          <i>Medical</i>,
+          <i>Game Design</i>,
+          <i>Architecture and Interior Design</i>, <i>Law</i>.
+        </p>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section"  style="margin-top:-130px; margin-bottom:-80px;">
+  <div class="hero-body">
+
+    <div class="container is-max-desktop">
+
+
+      <div class="section-title">
+        <h2 class="title is-3" style="margin-bottom: 25pt;">Evaluation Cases for Open-Ended User Queries</h2>
+        <h2 class="subtitle has-text-centered">(Display of Comprehensive Evaluation Results for Open-Ended User Queries)</h2>
+      </div>
+      <div id="results-carousel-face" class="carousel results-carousel">
+        <div class="item item-puppet">
+          <div class="carousel-content">
+            <div class="publication-img">
+              <video id="slideshow" style="width:100%; margin-top:10px;margin-bottom:10px;" autoplay="" muted="" loop="" playsinline="" controls>
+                <source src="./assets/images/open-3.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </div>   
+          </div>
+        </div>
+        
+        <div class="item item-puppet">
+          <div class="carousel-content">
+            <div class="publication-img">
+              <video id="slideshow" style="width:100%; margin-top:10px;margin-bottom:10px;" autoplay="" muted="" loop="" playsinline="" controls>
+                <source src="./assets/images/open-1.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </div>
+          </div>
+        </div>
+        <div class="item item-round_bird">
+          <div class="carousel-content">
+            <div class="publication-img">
+              <video id="slideshow" style="width:100%; margin-top:10px;margin-bottom:10px;" autoplay="" muted="" loop="" playsinline="" controls>
+                <source src="./assets/images/open-2.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </div>   
+          </div>
+        </div>
+        
+      </div>
+    
+  </div>
+</section>
+
+
+
+
+<section class="hero is-light is-small" id="BibTeX" >
+  <div class="container is-max-desktop content" style="margin-top: 40px; margin-bottom: 20px;">
+    <h2 class="title">BibTeX</h2>
+    <p>If you find our work useful, please consider citing our paper:</p>
+    <pre><code>@article{zhang2024evalagent,
+      author = {Zhang, Fan and Tian, Shulin and Huang, Ziqi and Qiao, Yu and Liu, Ziwei},
+      title = {Evaluation Agent: Efficient and Promptable Evaluation Framework for Visual Generative Models},
+      year = {2024}
+  }</code></pre>
+  </div>
+</section>
+
+
+<!-- footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://vchitect.github.io/Evaluation-Agent-project/">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/Vchitect/Evaluation-Agent" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website source code based on the <a href="https://nerfies.github.io/"> Nerfies</a> project page. If you want to reuse their <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit them appropriately.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
